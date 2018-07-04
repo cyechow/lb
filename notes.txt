@@ -7,3 +7,26 @@ pug https://pugjs.org/
 bootstrap
 
 create db called 'lb' once postgres is installed.
+
+https://codeburst.io/getting-started-with-pug-template-engine-e49cfa291e33
+
+psql:
+
+lb=# \d items
+                                   Table "public.items"
+ Column |         Type          | Collation | Nullable |              Default
+--------+-----------------------+-----------+----------+-----------------------------------
+ id     | integer               |           | not null | nextval('items_id_seq'::regclass)
+ item   | character varying(40) |           | not null |
+ count  | integer               |           |          |
+Indexes:
+    "items_pkey" PRIMARY KEY, btree (id)
+
+
+lb=# SELECT * FROM items ORDER BY id ASC;
+ id | item | count
+----+------+-------
+  1 | test |    10
+(1 row)
+
+\q to quit
