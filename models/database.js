@@ -1,0 +1,31 @@
+
+const dbConfig = {
+  user: 'postgres',
+  password: 'Legolos6',
+  database: 'lb',
+  host: 'localhost',
+  port: 5432,
+  idleTimeoutMillis: 1000
+};
+
+const { Pool, Client } = require('pg');
+const connectionString = process.env.DATABASE_URL || 'postgres://postgres:Legolos6@localhost:5432/lb';
+
+const pool = new Pool(dbConfig)
+const client = new Client(dbConfig);
+
+pool.query('CREATE TABLE users(id SERIAL PRIMARY KEY, name VARCHAR(40) not null, count INT)', async(err, res) => {
+	console.log(err, res)
+	await pool.end()
+});
+
+//await client.connect();
+
+//const res = await client.query('CREATE TABLE items(id SERIAL PRIMARY KEY, item VARCHAR(40) not null, count INT)');
+//await client.end();
+
+
+//client.connect();
+//const query = client.query(
+//  'CREATE TABLE items(id SERIAL PRIMARY KEY, text VARCHAR(40) not null, complete BOOLEAN)');
+//query.on('end', () => { client.end(); });
