@@ -5,3 +5,5 @@ nodejs
 postgresql
 pug https://pugjs.org/
 bootstrap
+
+create db called 'lb' once postgres is installed.
