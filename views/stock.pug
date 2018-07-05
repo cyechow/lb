@@ -1,0 +1,16 @@
+extends layout.pug
+
+block content
+  .container
+    p= title
+    
+    table.table.table-hover
+      thead
+        tr
+          th Item
+          th Count
+      tbody
+        for res in results
+          tr
+            td= res.item
+            td= res.count

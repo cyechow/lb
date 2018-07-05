@@ -9,9 +9,11 @@ router.get('/', function (req, res) {
 var indexRouter = require('./index');
 var usersRouter = require('./users');
 var stockRouter = require('./stock');
+var dataRouter = require('./data');
 
 module.exports = (app) => {
 	app.use(router);
+	//app.use(dataRouter);
 	app.use(usersRouter);
 	app.use(stockRouter);
 }
