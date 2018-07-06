@@ -2,8 +2,8 @@
 //- anchor buttons
 
 mixin m-btn(target, type)
-	button(type="button", class=["btn", "btn-" +type], data-toggle="modal", data-target="#" + target)
-
+	button(type="button", class=["btn", "btn-" +type], data-toggle="modal", data-target="#"+target)
+		block
 
 mixin a-btn(url,style)
 	- var type = (typeof style === 'undefined') ? "default" : style
