@@ -14,10 +14,17 @@ const connectionString = process.env.DATABASE_URL || 'postgres://postgres:Legolo
 const pool = new Pool(dbConfig)
 const client = new Client(dbConfig);
 
-pool.query('CREATE TABLE users(id SERIAL PRIMARY KEY, name VARCHAR(40) not null, count INT)', async(err, res) => {
+
+pool.query('CREATE TABLE orders(id SERIAL PRIMARY KEY, orderId SERIAL, clientName VARCHAR(40) not null, orderStatus VARCHAR(256) not null)', async(err, res) => {
 	console.log(err, res)
 	await pool.end()
 });
+/*
+pool.query('DROP TABLE orders', async(err, res) => {
+	console.log(err, res)
+	await pool.end()
+});
+*/
 
 //await client.connect();
 

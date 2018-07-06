@@ -1,0 +1,21 @@
+//- Declaration (modal-mixins.pug)
+
+mixin modal_dialog(id)
+  .modal.fade(id=id, tabindex="-1", role="dialog", aria-labelledby=id+"Label" aria-hidden="true)
+    .modal-dialog(role="document")
+      .modal-content
+        block
+
+mixin modal_dialog_header(id, title)
+  .modal-header
+    h5.modal-title(id=id+"Label")= title
+    button(class="close", data-dismiss="modal", aria-label="Close")
+      span(aria-hidden="true")&times;
+
+mixin modal_dialog_body
+  .modal-body
+    block
+
+mixin modal_dialog_footer
+  .modal-footer
+    block

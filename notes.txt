@@ -30,3 +30,7 @@ lb=# SELECT * FROM items ORDER BY id ASC;
 (1 row)
 
 \q to quit
+
+
+bootstrap3 pug example
+https://github.com/ALT-F1/bootstrap3-pug-former_jade-node-express-grunt/blob/master/app/routes/index.js
