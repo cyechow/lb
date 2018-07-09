@@ -63,9 +63,10 @@ block scripts
 
       function AddItem() {
         var data =  {
-          text  : $('#itemName').val(),
+          item  : $('#itemName').val(),
           count : $('#itemCount').val()
         }
+        
         $.ajax({
           type: "POST",
           contentType: "application/json",
