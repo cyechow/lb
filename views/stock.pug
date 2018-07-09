@@ -6,7 +6,7 @@ block navigation
     +navbar_section("navbar")
       +navbar_list_left
         +nav_item("./../..") Home
-        +nav_item("./", "active") Inventory
+        +nav_item("./stock", "active") Inventory
         +nav_item("./orders") Orders
           +nav_item_dropdown("#")(label="Custom Apparel ")
             +nav_item_dropdown_item("#")(label="Racerbacks")
@@ -35,6 +35,8 @@ block content
         form.form-group
           label(for="itemName", class="col-form-label") Item Name:
           input(type="text", class="form-control", id="itemName")
+          label(for="itemCount", class="col-form-label") Count:
+          input(type="text", class="form-control", id="itemCount")
       +modal_dialog_footer
         +a-btn-primary("#") Add
 

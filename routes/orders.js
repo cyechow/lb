@@ -33,7 +33,7 @@ router.post('/api/v1/orders/add', async(req, res, next) => {
 });
 
 // Update
-router.put('/api/v1/orders/:order_id', async(req, res, next) => {
+router.put('/api/v1/orders/add/:order_id', async(req, res, next) => {
 	const id = req.body.order_id;
 	const data = {name: req.body.text, orderStatus: req.body.orderStatus};
 	db.query('UPDATE orders SET clientName=($1), orderStatus=($2) WHERE orderId=($3)', [data.item, data.count, id]);

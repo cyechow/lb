@@ -10,6 +10,7 @@ module.exports = {
 		
 		db.query('SELECT item, count FROM items ORDER BY id ASC;', [], (err, qRes) => {
 			if (err) {
+				//console.log(err.message);
 				next(err);
 			}
 			
@@ -17,7 +18,7 @@ module.exports = {
 			qRes.rows.forEach(row => {
 				results.push(row);
 			});
-			
+			//console.log(results);
 			jsonData = JSON.stringify(results);
 			res.locals.allStock = jsonData;
 			next();
