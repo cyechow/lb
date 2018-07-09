@@ -16,7 +16,8 @@ mixin modal_dialog_body
   .modal-body
     block
 
-mixin modal_dialog_footer
+mixin modal_dialog_footer(id, text, url)
   .modal-footer
     button(class=["btn", "btn-secondary"], data-dismiss="modal") Close
+    button(id=id, class=["btn", "btn-primary"], role="button")=text
     block

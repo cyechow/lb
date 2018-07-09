@@ -5,6 +5,10 @@ mixin m-btn(target, type)
 	button(type="button", class=["btn", "btn-" +type], data-toggle="modal", data-target="#"+target)
 		block
 
+mixin m-submit-btn(id, type)
+	button(type="button", class=["btn", "btn-" +type], id=id)
+		block
+
 mixin a-btn(url,style)
 	- var type = (typeof style === 'undefined') ? "default" : style
 	a.btn(class=`btn-${type}`,href=url,role="button")

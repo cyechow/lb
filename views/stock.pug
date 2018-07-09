@@ -25,6 +25,7 @@ block content
   .container
     h3= title
     p
+      //- Opens modal with ID 'addStockModal'
       +m-btn("addStockModal", "success") Add
       | 
       button.btn.btn-warning(href='#', type='button') Edit
@@ -36,9 +37,10 @@ block content
           label(for="itemName", class="col-form-label") Item Name:
           input(type="text", class="form-control", id="itemName")
           label(for="itemCount", class="col-form-label") Count:
-          input(type="text", class="form-control", id="itemCount")
-      +modal_dialog_footer
-        +a-btn-primary("#") Add
+          input(type="number", class="form-control", id="itemCount")
+      +modal_dialog_footer("btnAdd", "Add", "#")
+
+    div(id="modalResults")
 
     table.table.table-hover
       thead
@@ -50,3 +52,43 @@ block content
           tr
             td= res.item
             td= res.count
+
+block scripts
+  script(type='text/javascript').
+    $(document).ready(function(){
+      function ResetModal() {
+        $('#itemName').val('');
+        $('#itemCount').val('');
+      };
+
+      function AddItem() {
+        var data =  {
+          text  : $('#itemName').val(),
+          count : $('#itemCount').val()
+        }
+        $.ajax({
+          type: "POST",
+          contentType: "application/json",
+          url: "/api/v1/stock/add",
+          data: JSON.stringify(data),
+          datatype: 'json',
+          success: function(ret) {
+            $('#modalResults').html("<p>Post Successfully! <br>--->" + JSON.stringify(ret)+ "</p>"); 
+          },
+          error: function(e) {
+            alert("Error!")
+            console.log("ERROR: ", e);
+          }
+        })
+      };
+
+      $('#addStockModal').on('hidden.bs.modal', function() {
+        ResetModal();
+      });
+
+      $('#btnAdd').click(function(event) {
+        $('#modalResults').html("<p>Item: " + $('#itemName').val() + ". Count: " + $('#itemCount').val() +"</p>" );
+        AddItem();
+        $('#addStockModal').modal('hide');
+      });
+    })

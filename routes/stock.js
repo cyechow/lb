@@ -12,6 +12,8 @@ router.get('/api/v1/stock', data.allStock, async(req, res) => {
 
 // Create
 router.post('/api/v1/stock/add', async(req, res, next) => {
+	console.log(JSON.stringify(req.data));
+	
 	const data = {item: req.body.text, count: req.body.count};
 	db.query('INSERT INTO items(item, count) values($1, $2)', [data.item, data.count]);
 	
