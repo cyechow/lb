@@ -42,16 +42,19 @@ block content
 
     div(id="modalResults")
 
-    table.table.table-hover
+    table.table.table-hover(id="tStock")
       thead
         tr
           th Item
           th Count
+          th Remove
       tbody
         for res in results
           tr
             td= res.item
             td= res.count
+            td
+              +t-delete-btn("btnDelete", "Delete")
 
 block scripts
   script(type='text/javascript').
@@ -59,6 +62,18 @@ block scripts
       function ResetModal() {
         $('#itemName').val('');
         $('#itemCount').val('');
+      };
+
+      function AddRow(item, count) {
+        var table = document.getElementById("tStock");
+        var newRow = table.insertRow(table.rows.length);
+        newRow.id = item;
+        var itemCell = row.insertCell(0);
+        itemCell.innerHTML = '<td>' + item + '</td>';
+        var countCell = row.insertCell(1);
+        countCell.innerHTML = '<td>' + count + '</td>';
+        var rmCell = row.insertCell(2);
+        rmCell.innerHTML = '<td><button class="btn btn-md btn-danger" type="button">Delete</button></td>';
       };
 
       function AddItem() {
@@ -74,7 +89,9 @@ block scripts
           data: JSON.stringify(data),
           datatype: 'json',
           success: function(ret) {
-            $('#modalResults').html("<p>Post Successfully! <br>--->" + JSON.stringify(ret)+ "</p>"); 
+            //AddRow(data.item, data.count);
+            //$('#modalResults').html("<p>Post Successfully! <br>--->" + JSON.stringify(ret)+ "</p>"); 
+            setTimeout(function() { location.reload(); }, 0020);
           },
           error: function(e) {
             alert("Error!")
@@ -91,5 +108,9 @@ block scripts
         $('#modalResults').html("<p>Item: " + $('#itemName').val() + ". Count: " + $('#itemCount').val() +"</p>" );
         AddItem();
         $('#addStockModal').modal('hide');
+      });
+
+      $('#btnDelete').click(function(event) {
+        $(this).parents('tr').remove();
       });
     })
