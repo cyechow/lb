@@ -13,7 +13,14 @@ router.get('/api/v1/orders', data.allOrders, async(req, res) => {
 // Create
 router.post('/api/v1/orders/add', async(req, res, next) => {
 	const data = {name: req.body.text, orderStatus: 'Created'};
-	db.query('INSERT INTO orders(clientName, orderStatus) values($1, $2)', [data.name, data.orderStatus]);
+	db.query('INSERT INTO orders(clientName, orderStatus) values($1, $2)', [data.name, data.orderStatus], (err, qRes)=> {
+		if (err) {
+			next(err);
+		}
+		else {
+			next();
+		}
+	});
 	
 	var results = [];
 	
@@ -36,7 +43,14 @@ router.post('/api/v1/orders/add', async(req, res, next) => {
 router.put('/api/v1/orders/add/:order_id', async(req, res, next) => {
 	const id = req.body.order_id;
 	const data = {name: req.body.text, orderStatus: req.body.orderStatus};
-	db.query('UPDATE orders SET clientName=($1), orderStatus=($2) WHERE orderId=($3)', [data.item, data.count, id]);
+	db.query('UPDATE orders SET clientName=($1), orderStatus=($2) WHERE orderId=($3)', [data.item, data.count, id], (err, qRes)=> {
+		if (err) {
+			next(err);
+		}
+		else {
+			next();
+		}
+	});
 	
 	var results = [];
 	
