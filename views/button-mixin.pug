@@ -9,8 +9,9 @@ mixin m-submit-btn(id, type)
 	button(type="button", class=["btn", "btn-" +type], id=id)
 		block
 
-mixin t-delete-btn(id, text)
-	button(id=id, class=["btn", "btn-danger"], role="button")=text
+mixin t-delete-btn(id)
+	button(id=id, class=["btn", "btn-danger", "delete"], role="button")
+		block
 
 mixin a-btn(url,style)
 	- var type = (typeof style === 'undefined') ? "default" : style

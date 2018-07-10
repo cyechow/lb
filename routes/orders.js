@@ -17,9 +17,6 @@ router.post('/api/v1/orders/add', async(req, res, next) => {
 		if (err) {
 			next(err);
 		}
-		else {
-			next();
-		}
 	});
 	
 	var results = [];
@@ -46,9 +43,6 @@ router.put('/api/v1/orders/add/:order_id', async(req, res, next) => {
 	db.query('UPDATE orders SET clientName=($1), orderStatus=($2) WHERE orderId=($3)', [data.item, data.count, id], (err, qRes)=> {
 		if (err) {
 			next(err);
-		}
-		else {
-			next();
 		}
 	});
 	
