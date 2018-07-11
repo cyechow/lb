@@ -1,9 +1,7 @@
 extends layout.pug
 
 block styles
-  link(rel='stylesheet', href='/dist/css/dataTables.bootstrap4.min.css')
-  link( rel="stylesheet", type="text/css", href="/DataTables/datatables.min.css")
-
+  link(rel='stylesheet', href='/DataTables/datatables.min.css')
 
 block navigation
   +navbar("default")
@@ -48,7 +46,7 @@ block content
     div(id="modalResults")
 
     div
-    table.table.table-hover(id="tStock", data-toggle="table")
+    table.table.table-hover(id="tStock", class="display", style="width:100%")
       thead
         tr
           th(class="sorting") Item
@@ -64,67 +62,5 @@ block content
                 i(class=["fa", "fa-trash-o", "fa-lg"])
 
 block scripts
-  script(type="text/javascript", src="/DataTables/datatables.min.js">)
-
-  script(type='text/javascript').
-    $(document).ready(function(){
-      function ResetModal() {
-        $('#itemName').val('');
-        $('#itemCount').val('');
-      };
-
-      function AddRow(item, count) {
-        var table = document.getElementById("tStock");
-        var newRow = table.insertRow(table.rows.length);
-        newRow.id = item;
-        var itemCell = row.insertCell(0);
-        itemCell.innerHTML = '<td>' + item + '</td>';
-        var countCell = row.insertCell(1);
-        countCell.innerHTML = '<td>' + count + '</td>';
-        var rmCell = row.insertCell(2);
-        rmCell.innerHTML = '<td><button class="btn btn-md btn-danger" type="button">Delete</button></td>';
-      };
-
-      function AddItem() {
-        var data =  {
-          item  : $('#itemName').val(),
-          count : $('#itemCount').val()
-        }
-        
-        $.ajax({
-          type: "POST",
-          contentType: "application/json",
-          url: "/api/v1/stock/add",
-          data: JSON.stringify(data),
-          datatype: 'json',
-          success: function(ret) {
-            //AddRow(data.item, data.count);
-            //$('#modalResults').html("<p>Post Successfully! <br>--->" + JSON.stringify(ret)+ "</p>"); 
-            setTimeout(function() { location.reload(); }, 0020);
-          },
-          error: function(e) {
-            alert("Error!")
-            console.log("ERROR: ", e);
-          }
-        })
-      };
-
-      $('#addStockModal').on('hidden.bs.modal', function() {
-        ResetModal();
-      });
-
-      $('#btnAdd').click(function(event) {
-        $('#modalResults').html("<p>Item: " + $('#itemName').val() + ". Count: " + $('#itemCount').val() +"</p>" );
-        AddItem();
-        $('#addStockModal').modal('hide');
-      });
-
-      $('#addStockModal').on('click', '.delete', function(){
-        $(this).parents('tr').remove();
-        
-      });
-
-      $('#btnDelete').click(function(event) {
-        $(this).parents('tr').remove();
-      });
-    })
+  script(type="text/javascript", src="/javascripts/stock.js")
+  script(type="text/javascript", src="/DataTables/datatables.min.js")

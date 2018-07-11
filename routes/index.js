@@ -12,8 +12,8 @@ router.get('/', function (req, res) {
 
 var indexRouter = require('./index');
 var usersRouter = require('./users');
-var stockRouter = require('./stock');
-var ordersRouter = require('./orders');
+var stockRouter = require('./stockRoute');
+var ordersRouter = require('./ordersRoute');
 var dataRouter = require('./data');
 
 module.exports = (app) => {
