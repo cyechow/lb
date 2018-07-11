@@ -1,5 +1,10 @@
 extends layout.pug
 
+block styles
+  link(rel='stylesheet', href='/dist/css/dataTables.bootstrap4.min.css')
+  link( rel="stylesheet", type="text/css", href="/DataTables/datatables.min.css")
+
+
 block navigation
   +navbar("default")
     +nav_brand("LimitBreaker", "navbar", "./../..")
@@ -42,6 +47,7 @@ block content
 
     div(id="modalResults")
 
+    div
     table.table.table-hover(id="tStock", data-toggle="table")
       thead
         tr
@@ -58,6 +64,8 @@ block content
                 i(class=["fa", "fa-trash-o", "fa-lg"])
 
 block scripts
+  script(type="text/javascript", src="/DataTables/datatables.min.js">)
+
   script(type='text/javascript').
     $(document).ready(function(){
       function ResetModal() {
