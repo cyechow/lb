@@ -49,12 +49,12 @@ block content
     table.table.table-hover(id="tStock", class="display", style="width:100%")
       thead
         tr
-          th(class="sorting") Item
-          th(class="sorting") Count
+          th Item
+          th Count
           th Remove
       tbody
         for res in results
-          tr
+          tr(id=res.id)
             td= res.item
             td= res.count
             td

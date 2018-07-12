@@ -8,7 +8,7 @@ module.exports = {
 		var results = [];
 		res.locals.allStock = [];
 		
-		db.query('SELECT item, count FROM items ORDER BY id ASC;', [], (err, qRes) => {
+		db.query('SELECT id, item, count FROM items ORDER BY id ASC;', [], (err, qRes) => {
 			if (err) {
 				//console.log(err.message);
 				next(err);
