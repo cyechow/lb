@@ -1,6 +1,6 @@
 $(document).ready(function(){
 
-    var tStock = tStock = $('#tStock').DataTable({
+    var tStock = $('#tStock').DataTable({
         "order": [[ 0, "asc" ]],
         "data": results,
         'createdRow': function( row, data, id ) {
