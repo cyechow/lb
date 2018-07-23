@@ -22,14 +22,19 @@ pool.query('CREATE TABLE users(id SERIAL PRIMARY KEY, username VARCHAR(40) not n
 */
 
 /*
-pool.query('CREATE TABLE items(id SERIAL PRIMARY KEY, item VARCHAR(40) not null, count INTEGER)', async(err, res) => {
+pool.query('CREATE TABLE items(id SERIAL PRIMARY KEY, itemid SERIAL UNIQUE, item VARCHAR(40) not null, count INTEGER)', async(err, res) => {
 	console.log(err, res)
 	await pool.end()
 });
 */
 
+pool.query('CREATE TABLE designs(id SERIAL PRIMARY KEY, designid SERIAL UNIQUE, designname VARCHAR(40) NOT NULL UNIQUE, description VARCHAR(256) )', async(err, res) => {
+	console.log(err, res)
+	await pool.end()
+});
+
 /*
-pool.query('CREATE TABLE orders(id SERIAL PRIMARY KEY, orderId SERIAL, clientName VARCHAR(40) not null, orderStatus VARCHAR(256) not null)', async(err, res) => {
+pool.query('CREATE TABLE orders(id SERIAL PRIMARY KEY, orderId SERIAL UNIQUE, clientName VARCHAR(40) NOT NULL, orderStatus VARCHAR(256) NOT NULL)', async(err, res) => {
 	console.log(err, res)
 	await pool.end()
 });
