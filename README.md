@@ -1,4 +1,4 @@
-# Concept Management Application
+# Concept: Management Application
 
 ## Inventory
 - Ability to view stock stored in a DB
