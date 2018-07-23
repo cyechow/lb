@@ -1,10 +1,9 @@
 $(document).ready(function(){
-
+    var rowIdxArray = [];
     var tStock = $('#tStock').DataTable({
-        "order": [[ 0, "asc" ]],
-        "data": results,
-        'createdRow': function( row, data, id ) {
-            $(row).attr('id', id);
+        "ajax": {
+            "url": "/count/stock",
+            "dataSrc": ""
         },
         "columns": [
             {
@@ -21,29 +20,23 @@ $(document).ready(function(){
                     return '<button class="btn btn-danger delete" role="button"><i class="fa fa-trash-o fa-lg" id="btnDelete"</i></button>';
                 }
             }
-        ]
+        ],
+        "order": [[ 1, "desc" ]],
+        "paging": true,
+        "pagingType": "simple_numbers"
     });
 
-    var AddRow = function (item, count) {
-        tStock.row.add( [
-            item,
-            count
-        ] ).draw( false );
-    }
+    // Index all rows and store current row subset indices into an array for row-specific requests:
+    $('#tStock').on('draw.dt', function() {
+        rowIdxArray = [];
+        tStock.rows( {filter: 'applied' } ).every( function( rowIdx, tableLoop, rowLoop ) {
+            $(this).attr('index', rowIdx);
+            rowIdxArray.push(rowIdx);
+        });
+    });
 
     $('#addStockModal').on('hidden.bs.modal', function() {
         ResetModal();
-    });
-
-    $('#btnAdd').click(function(event) {
-        $('#modalResults').html("<p>Item: " + $('#itemName').val() + ". Count: " + $('#itemCount').val() +"</p>" );
-        AddItem();
-        $('#addStockModal').modal('hide');
-    });
-
-    $('#tStock').on('click', '.delete', function(){
-        
-        $(this).parents('tr').remove();
     });
 
     var ResetModal = function() {
@@ -51,6 +44,21 @@ $(document).ready(function(){
         $('#itemCount').val('');
     };
 
+    // Handle add item button click from modal:
+    $('#btnAdd').click(function(event) {
+        $('#modalResults').html("<p>Item: " + $('#itemName').val() + ". Count: " + $('#itemCount').val() +"</p>" );
+        AddItem();
+        $('#addStockModal').modal('hide');
+    });
+
+    var AddRow = function (data) {
+        tStock.row.add( {
+            "item": data.item,
+            "count": data.count
+        } ).draw();
+    }
+
+    // Handle adding item to DB and table:
     var AddItem = function() {
         var data =  {
             item  : $('#itemName').val(),
@@ -64,9 +72,7 @@ $(document).ready(function(){
             data: JSON.stringify(data),
             datatype: 'json',
             success: function(ret) {
-                //AddRow(data.item, data.count);
-                //$('#modalResults').html("<p>Post Successfully! <br>--->" + JSON.stringify(ret)+ "</p>"); 
-                setTimeout(function() { location.reload(); }, 20);
+                AddRow(data);
             },
             error: function(e) {
                 alert("Error!")
@@ -74,4 +80,29 @@ $(document).ready(function(){
             }
         })
     };
+
+    // Handle deletion of row:
+    $('#tStock').on('click', '.delete', function(){
+        var pg = tStock.page.info();
+        var index = rowIdxArray[$(this).closest('tr').index()];
+        var pgLength = tStock.page.len();
+        var itemName = tStock.cell( pg.page*pgLength + index, 0 ).data();
+
+        // Send delete request:
+        $.ajax({
+            type: "DELETE",
+            contentType: "application/json",
+            url: "/api/v1/stock/delete/" + itemName,
+            success: function(ret) {
+                console.log("Deleted " + itemName);
+                
+                // Remove row + redraw table:
+                tStock.row($(this).parents('tr')).remove().draw();
+            },
+            error: function(e) {
+                alert("Error!")
+                console.log("ERROR: ", e);
+            }
+        })
+    });
 })
