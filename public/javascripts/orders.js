@@ -1,75 +1,71 @@
 $(document).ready(function(){
     var rowIdxArray = [];
-    var tStock = $('#tStock').DataTable({
+    var tOrder = $('#tOrder').DataTable({
         "ajax": {
-            "url": "/count/stock",
+            "url": "/count/orders",
             "dataSrc": ""
         },
         "columns": [
             {
-                "data": "item",
+                "data": "orderid",
                 "searchable": true
             },
             {
-                "data": "count",
+                "data": "clientname",
                 "searchable": true
             },
             {
-                "render": function (data, type, full, meta)
-                {
-                    return '<button class="btn btn-danger delete" role="button"><i class="fa fa-trash-o fa-lg" id="btnDelete"</i></button>';
-                },
-                "orderable": false
+                "data": "orderstatus",
+                "searchable": true
             }
         ],
-        "order": [[ 1, "desc" ]],
+        "order": [[ 0, "asc" ]],
         "paging": true,
         "pagingType": "simple_numbers"
     });
 
     // Index all rows and store current row subset indices into an array for row-specific requests:
-    $('#tStock').on('draw.dt', function() {
+    $('#tOrder').on('draw.dt', function() {
         rowIdxArray = [];
-        tStock.rows( {filter: 'applied' } ).every( function( rowIdx, tableLoop, rowLoop ) {
+        tOrder.rows( {filter: 'applied' } ).every( function( rowIdx, tableLoop, rowLoop ) {
             $(this).attr('index', rowIdx);
             rowIdxArray.push(rowIdx);
         });
     });
 
-    $('#addStockModal').on('hidden.bs.modal', function() {
+    $('#addOrderModal').on('hidden.bs.modal', function() {
         ResetModal();
     });
 
     var ResetModal = function() {
-        $('#itemName').val('');
-        $('#itemCount').val('');
+        $('#clientname').val('');
     };
 
     // Handle add item button click from modal:
     $('#btnAdd').click(function(event) {
-        $('#modalResults').html("<p>Item: " + $('#itemName').val() + ". Count: " + $('#itemCount').val() +"</p>" );
+        $('#modalResults').html("<p>Client Name: " + $('#clientname').val() + ".</p>" );
         AddItem();
-        $('#addStockModal').modal('hide');
+        $('#addOrderModal').modal('hide');
     });
 
     var AddRow = function (data) {
-        tStock.row.add( {
-            "item": data.item,
-            "count": data.count
+        tOrder.row.add( {
+            "orderid": data.orderid,
+            "clientname": data.clientname,
+            "orderstatus": "Submitted"
         } ).draw();
     }
 
     // Handle adding item to DB and table:
     var AddItem = function() {
         var data =  {
-            item  : $('#itemName').val(),
-            count : $('#itemCount').val()
+            item  : $('#clientName').val()
         }
             
         $.ajax({
             type: "POST",
             contentType: "application/json",
-            url: "/api/v1/stock/add",
+            url: "/api/v1/orders/add",
             data: JSON.stringify(data),
             datatype: 'json',
             success: function(ret) {
@@ -83,22 +79,22 @@ $(document).ready(function(){
     };
 
     // Handle deletion of row:
-    $('#tStock').on('click', '.delete', function(){
-        var pg = tStock.page.info();
+    $('#tOrder').on('click', '.delete', function(){
+        var pg = tOrder.page.info();
         var index = rowIdxArray[$(this).closest('tr').index()];
-        var pgLength = tStock.page.len();
-        var itemName = tStock.cell( pg.page*pgLength + index, 0 ).data();
+        var pgLength = tOrder.page.len();
+        var orderID = tOrder.cell( pg.page*pgLength + index, 0 ).data();
 
         // Send delete request:
         $.ajax({
             type: "DELETE",
             contentType: "application/json",
-            url: "/api/v1/stock/delete/" + itemName,
+            url: "/api/v1/orders/delete/" + orderID,
             success: function(ret) {
-                console.log("Deleted " + itemName);
+                console.log("Deleted " + orderID);
                 
                 // Remove row + redraw table:
-                tStock.row($(this).parents('tr')).remove().draw();
+                tOrder.row($(this).parents('tr')).remove().draw();
             },
             error: function(e) {
                 alert("Error!")

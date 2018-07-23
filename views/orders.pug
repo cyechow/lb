@@ -25,10 +25,12 @@ block content
   .container
     h3= title
 
+    div(id="statuses")
+
     p
       button.btn.btn-success(href='#', type='button') Add
 	
-    table.table.table-hover
+    table.table.table-hover(id="tOrder", class="display", style="width:100%")
       thead
         tr
           th Order ID
