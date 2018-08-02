@@ -48,21 +48,12 @@ block content
 
     div(id="modalResults")
 
-    div
     table.table.table-hover(id="tStock", class="display", style="width:100%")
       thead
         tr
           th Item
           th Count
           th Remove
-      tbody
-        for res in results
-          tr(id=res.id)
-            td= res.item
-            td= res.count
-            td
-              +t-delete-btn("btnDelete")
-                i(class=["fa", "fa-trash-o", "fa-lg"])
 
 block scripts
   script(type="text/javascript", src="/javascripts/stock.js")

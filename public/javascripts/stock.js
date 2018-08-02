@@ -83,11 +83,13 @@ $(document).ready(function(){
     };
 
     // Handle deletion of row:
-    $('#tStock').on('click', '.delete', function(){
+    $('#tStock').on('click', '.delete', function() {
         var pg = tStock.page.info();
         var index = rowIdxArray[$(this).closest('tr').index()];
         var pgLength = tStock.page.len();
         var itemName = tStock.cell( pg.page*pgLength + index, 0 ).data();
+
+        var currRow = $(this).parents('tr');
 
         // Send delete request:
         $.ajax({
@@ -95,10 +97,13 @@ $(document).ready(function(){
             contentType: "application/json",
             url: "/api/v1/stock/delete/" + itemName,
             success: function(ret) {
-                console.log("Deleted " + itemName);
-                
+                console.log("Deleted " + itemName );
+
                 // Remove row + redraw table:
-                tStock.row($(this).parents('tr')).remove().draw();
+                tStock
+                    .rows( currRow )
+                    .remove()
+                    .draw();
             },
             error: function(e) {
                 alert("Error!")
