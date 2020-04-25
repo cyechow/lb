@@ -1,0 +1,42 @@
+extends layout.pug
+
+block styles
+  link(rel='stylesheet', href='/DataTables/datatables.min.css')
+
+block navigation
+  +navbar("default")
+    +nav_brand("LimitBreaker", "navbar", "./../..")
+    +navbar_section("navbar")
+      +navbar_list_left
+        +nav_item("./") Home
+        +nav_item("./inquiry", "active") Order Inquiry
+      +navbar_list_right
+        +nav_item("./", "active") Info
+        +nav_item("./") More Stuff
+        +nav_item("./") Even More
+
+block content
+  .container
+    h3 Inquiry Form
+
+    div(id="statuses")
+
+    p
+    p
+
+    form#inquiryform(onsubmit="return handleInquirySubmit(event)")
+      label(for="name") Name
+      input#name(type="text" name="name" placeholder="Please enter your name..")
+      label(for="email") Email
+      input#email(type="text" name="email" placeholder="Please enter your email..")
+      label(for="subject") Subject
+      textarea#subject(name="subject" placeholder="Write something.." style="height:200px")
+      input(id="btnSubmit" type="submit" value="Submit")
+
+    //- Space so table doesn't run into footer.
+    div
+      p
+
+block scripts
+  script(type="text/javascript", src="/javascripts/inquiry.js")
+  script(type="text/javascript", src="/DataTables/datatables.min.js")
