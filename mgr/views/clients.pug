@@ -8,7 +8,9 @@ block navigation
     +nav_brand("LimitBreaker", "navbar", "./../..")
     +navbar_section("navbar")
       +navbar_list_left
-        +nav_item("./../..") Home
+        +nav_item("./") Home
+        +nav_item("./inquiry") Order Inquiry
+        +nav_item("#") Clients
         +nav_item("./stock", "active") Inventory
         +nav_item("./orders") Orders
           +nav_item_dropdown("#")(label="Custom Apparel ")
@@ -30,31 +32,12 @@ block content
 
     div(id="statuses")
 
-    p
-      //- Opens modal with ID 'addStockModal'
-      +m-btn("addStockModal", "success") Add
-      | 
-      button.btn.btn-warning(href='#', type='button') Edit
+    table.table.table-hover(id="tClients", class="display", style="width:100%")
 
-    +modal_dialog("addStockModal")
-      +modal_dialog_header("addStockModal", "Add New Inventory Item")
-      +modal_dialog_body
-        form.form-group
-          label(for="itemName", class="col-form-label") Item Name:
-          input(type="text", class="form-control", id="itemName")
-          label(for="itemCount", class="col-form-label") Count:
-          input(type="number", class="form-control", id="itemCount")
-      +modal_dialog_footer("btnAdd", "Add", "#")
-
-    div(id="modalResults")
-
-    table.table.table-hover(id="tStock", class="display", style="width:100%")
-      thead
-        tr
-          th Item
-          th Count
-          th Remove
+    //- Space so table doesn't run into footer.
+    div
+      p
 
 block scripts
-  script(type="text/javascript", src="/javascripts/stock.js")
+  script(type="text/javascript", src="/javascripts/clients.js")
   script(type="text/javascript", src="/DataTables/datatables.min.js")
